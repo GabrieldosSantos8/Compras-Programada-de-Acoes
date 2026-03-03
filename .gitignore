@@ -1,0 +1,73 @@
+############################
+# .NET / C#
+############################
+
+bin/
+obj/
+
+############################
+# Visual Studio
+############################
+
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+############################
+# Rider / JetBrains
+############################
+
+.idea/
+
+############################
+# Logs
+############################
+
+*.log
+
+############################
+# OS Files
+############################
+
+.DS_Store
+Thumbs.db
+
+############################
+# Test Results
+############################
+
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+
+############################
+# Environment
+############################
+
+.env
+
+############################
+# Docker
+############################
+
+docker-compose.override.yml
+
+############################
+# Data & Large Files
+############################
+# Ignora o arquivo de cotações e qualquer outro TXT de dados
+COTAHIST_A2026.TXT
+*.TXT
+*.csv
+*.dat
+
+############################
+# User Specific & Secrets
+############################
+# Ignora configurações locais que podem ter senhas de banco
+appsettings.Development.json
+appsettings.Local.json
+.vscode/
