@@ -91,6 +91,7 @@ Executar testes:
 dotnet test
 ````
 🚀 Executando o Projeto
+
 🔧 Build
 ```bash
 dotnet build
@@ -102,6 +103,7 @@ dotnet run --project CompraProgramada.Api
 Swagger disponível em:
 
 https://localhost:{porta}/swagger
+
 🐳 Executar com Docker
 ```bash
 docker-compose up --build
