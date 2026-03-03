@@ -12,35 +12,58 @@ public class Custodia
 
     public Custodia(int contaFilhoteId, string ticker)
     {
+        if (string.IsNullOrWhiteSpace(ticker))
+            throw new ArgumentException("Ticker inválido");
+
         ContaFilhoteId = contaFilhoteId;
         Ticker = ticker;
         Quantidade = 0;
         PrecoMedio = 0;
     }
 
-    public void AtualizarPrecoMedio(int quantidadeNova, decimal precoUnitario)
+    public void Comprar(int quantidadeNova, decimal precoUnitario)
     {
-    if (quantidadeNova <= 0)
-        throw new ArgumentException("Quantidade deve ser maior que zero");
+        if (quantidadeNova <= 0)
+            throw new ArgumentException("Quantidade deve ser maior que zero");
 
-    if (precoUnitario <= 0)
-        throw new ArgumentException("Preço deve ser maior que zero");
+        if (precoUnitario <= 0)
+            throw new ArgumentException("Preço deve ser maior que zero");
 
-    var totalAnterior = Quantidade * PrecoMedio;
-    var totalNovo = quantidadeNova * precoUnitario;
+        // Primeira compra
+        if (Quantidade == 0)
+        {
+            Quantidade = quantidadeNova;
+            PrecoMedio = precoUnitario;
+            return;
+        }
 
-    Quantidade += quantidadeNova;
-    PrecoMedio = (totalAnterior + totalNovo) / Quantidade;
+        var totalAnterior = Quantidade * PrecoMedio;
+        var totalNovo = quantidadeNova * precoUnitario;
+
+        Quantidade += quantidadeNova;
+        PrecoMedio = (totalAnterior + totalNovo) / Quantidade;
     }
 
     public void Vender(int quantidade)
     {
-    if (quantidade <= 0)
-        throw new ArgumentException("Quantidade inválida");
+        if (quantidade <= 0)
+            throw new ArgumentException("Quantidade inválida");
 
-    if (quantidade > Quantidade)
-        throw new InvalidOperationException("Quantidade insuficiente");
+        if (quantidade > Quantidade)
+            throw new InvalidOperationException("Quantidade insuficiente");
 
-    Quantidade -= quantidade;
+        Quantidade -= quantidade;
+
+        // Se zerar posição, zera o preço médio
+        if (Quantidade == 0)
+            PrecoMedio = 0;
+    }
+
+    public decimal CalcularPL(decimal cotacaoAtual)
+    {
+        if (cotacaoAtual <= 0)
+            throw new ArgumentException("Cotação inválida");
+
+        return (cotacaoAtual - PrecoMedio) * Quantidade;
     }
 }

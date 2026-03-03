@@ -1,105 +1,113 @@
-# 💼 Compra Programada - Processamento de Investimentos
+📌 Compra Programada API
 
-Projeto desenvolvido em .NET 8 simulando o processamento de compras programadas de ativos financeiros com base em uma cesta Top Five.
+API responsável pelo processamento de compras programadas de ativos financeiros, geração de ordens consolidadas, atualização de custódia, cálculo de imposto de renda e publicação de eventos.
 
-## 📌 Objetivo
+🏗 Arquitetura
 
-Processar compras consolidadas para clientes ativos, distribuindo investimentos conforme uma cesta pré-definida de ativos.
+O projeto foi desenvolvido utilizando princípios de Clean Architecture, com separação clara de responsabilidades entre as camadas:
 
-O sistema valida:
+Domain → Entidades e regras de negócio
 
-- Existência de cesta ativa
-- Existência de clientes ativos
-- Cotação disponível
-- Atualização de custódia
-- Geração de ordem master
-- Geração de ordens por cliente
+Application → Casos de uso e orquestração
 
----
+Infrastructure → Persistência, repositórios e mensageria
 
-## 🏗 Arquitetura
+API → Exposição dos endpoints e configuração da aplicação
 
-O projeto foi estruturado seguindo princípios de separação de responsabilidades:
+Essa abordagem reduz acoplamento, facilita testes e melhora a manutenibilidade do sistema.
 
-CompraProgramada
-│
-├── CompraProgramada.Domain → Entidades e Interfaces
-├── CompraProgramada.Application → Regras de Negócio
-└── CompraProgramada.Tests → Testes unitários (xUnit)
+🧩 Principais Funcionalidades
 
+Processamento de compras consolidadas
 
-### 🔹 Domain
-Contém:
-- Entidades
-- Interfaces de repositório
-- Regras puras de negócio
+Geração de Ordem Master
 
-### 🔹 Application
-Contém:
-- `ProcessamentoService`
-- Orquestração do fluxo de processamento
+Geração de Ordens por Cliente
 
-### 🔹 Tests
-Contém:
-- Testes unitários com xUnit
-- Fakes para simular cenários:
-  - Sem cesta
-  - Sem clientes
-  - Fluxo válido
+Atualização de custódia com cálculo de preço médio
 
----
+Cálculo de imposto de renda
 
-## 🧪 Testes
+Geração de relatório mensal
 
-Cobertura de cenários:
+Publicação de eventos (estrutura preparada para Kafka)
 
-- ❌ Não processar sem cesta
-- ❌ Não processar sem clientes
-- ✅ Processar corretamente com cesta válida
+Testes unitários cobrindo cenários críticos
+
+🧠 Regras de Negócio Implementadas
+
+Validação de clientes ativos
+
+Validação de existência de cesta válida
+
+Cálculo correto de preço médio ponderado
+
+Atualização de custódia por cliente
+
+Geração consolidada de ordens
+
+Tratamento global de erros via middleware
+
+🧪 Testes
+
+Foram implementados testes unitários utilizando xUnit, validando:
+
+Não processar sem clientes
+
+Não processar sem cesta
+
+Processamento correto em cenário válido
 
 Executar testes:
 
-```bash
 dotnet test
-````
+🚀 Executando o Projeto
+🔧 Build
+dotnet build
+▶ Executar API
+dotnet run --project CompraProgramada.Api
 
-🚀 Tecnologias Utilizadas
+Swagger disponível em:
+
+https://localhost:{porta}/swagger
+🐳 Executar com Docker
+docker-compose up --build
+🛠 Tecnologias Utilizadas
 
 .NET 8
 
-C#
+ASP.NET Core
+
+Entity Framework Core
+
+MySQL
 
 xUnit
 
-Arquitetura em camadas
+Swagger
 
-Injeção de Dependência
+Docker
 
-Princípios SOLID
+📌 Decisões Técnicas
 
-▶ Como Executar
+Separação clara entre domínio e infraestrutura
 
-Restaurar dependências:
+Inversão de dependência via interfaces
 
-dotnet restore
+Encapsulamento das regras críticas no Domain
 
-Rodar testes:
+Preparação para mensageria baseada em eventos
 
-dotnet test
-📎 Considerações Técnicas
+Estrutura orientada a testabilidade
 
-Uso de repositório via interface para facilitar testes.
+📈 Evoluções Futuras
 
-Uso de Fakes ao invés de banco real para testes unitários.
+Implementação de mensageria real com Kafka
 
-Validações explícitas para garantir integridade do processamento.
+Controle transacional mais robusto
 
-Separação clara entre domínio e aplicação.
+Estratégias de idempotência
 
-👨‍💻 Autor
+Autenticação e autorização (JWT)
 
-Gabriel Santos
-Bacharel em Sistemas de Informação
-Pós-graduação em Engenharia de Software
-
-
+Observabilidade (logs estruturados)

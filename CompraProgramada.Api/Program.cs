@@ -6,6 +6,8 @@ using CompraProgramada.Domain.Repositories;
 using CompraProgramada.Infrastructure.Repositories;
 using CompraProgramada.Api.Middlewares;
 using CompraProgramada.Infrastructure.Services;
+using CompraProgramada.Domain.Services;
+using CompraProgramada.Infrastructure.Messaging;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,9 +17,14 @@ builder.Services.AddScoped<IProcessamentoRepository, ProcessamentoRepository>();
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IProcessamentoService, ProcessamentoService>();
+builder.Services.AddScoped<CalculoImpostoService>();
+builder.Services.AddScoped<RelatorioIrService>();
+builder.Services.AddScoped<IEventPublisher, FakeEventPublisher>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(

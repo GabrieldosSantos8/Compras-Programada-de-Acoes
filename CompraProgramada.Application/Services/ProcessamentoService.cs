@@ -40,8 +40,8 @@ public class ProcessamentoService : IProcessamentoService
                 custodia = new Custodia(cliente.Id, cotacao.Ticker);
                 await _repository.AdicionarCustodiaAsync(custodia);
             }
-
-            custodia.AtualizarPrecoMedio(quantidade, cotacao.PrecoFechamento);
+            custodia.Comprar(quantidade, cotacao.PrecoFechamento);
+           
         }
 
         await _repository.SalvarAsync();

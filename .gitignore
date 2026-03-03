@@ -67,7 +67,30 @@ COTAHIST_A2026.TXT
 ############################
 # User Specific & Secrets
 ############################
-# Ignora configurações locais que podem ter senhas de banco
+# Ignora configurações locais que podem ter senhas 
 appsettings.Development.json
 appsettings.Local.json
 .vscode/
+
+############################
+# .NET Publish & Tooling
+############################
+# Evita que pastas de publicação entrem no Git
+[Pp]ublish/
+.pub/
+*.nupkg
+
+############################
+# Databases
+############################
+# Se você usar arquivos de banco locais
+*.db
+*.db-shm
+*.db-wal
+
+############################
+# IDE - VS Code Additional
+############################
+# Ignora o histórico de workspace do VS Code
+.history/
+*.code-workspace
