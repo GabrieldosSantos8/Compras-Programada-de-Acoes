@@ -16,6 +16,33 @@ API → Exposição dos endpoints e configuração da aplicação
 
 Essa abordagem reduz acoplamento, facilita testes e melhora a manutenibilidade do sistema.
 
+📂 Estrutura de Pastas (Solution Layout)
+CompraProgramada.sln
+│
+├── CompraProgramada.Api
+│   ├── Controllers
+│   ├── Middlewares
+│   └── Program.cs
+│
+├── CompraProgramada.Application
+│   ├── DTOs
+│   ├── Interfaces
+│   └── Services
+│
+├── CompraProgramada.Domain
+│   ├── Entities
+│   ├── Repositories
+│   └── Services
+│
+├── CompraProgramada.Infrastructure
+│   ├── Data
+│   ├── Repositories
+│   ├── Messaging
+│   └── Services
+│
+└── CompraProgramada.Tests
+    └── Testes unitários (xUnit)
+    
 🧩 Principais Funcionalidades
 
 Processamento de compras consolidadas
