@@ -6,17 +6,18 @@ API responsável pelo processamento de compras programadas de ativos financeiros
 
 O projeto foi desenvolvido utilizando princípios de Clean Architecture, com separação clara de responsabilidades entre as camadas:
 
-Domain → Entidades e regras de negócio
+- Domain → Entidades e regras de negócio
 
-Application → Casos de uso e orquestração
+- Application → Casos de uso e orquestração
 
-Infrastructure → Persistência, repositórios e mensageria
+- Infrastructure → Persistência, repositórios e mensageria
 
-API → Exposição dos endpoints e configuração da aplicação
+- API → Exposição dos endpoints e configuração da aplicação
 
 Essa abordagem reduz acoplamento, facilita testes e melhora a manutenibilidade do sistema.
 
 📂 Estrutura de Pastas (Solution Layout)
+```bash
 CompraProgramada.sln
 │
 ├── CompraProgramada.Api
@@ -42,99 +43,105 @@ CompraProgramada.sln
 │
 └── CompraProgramada.Tests
     └── Testes unitários (xUnit)
-    
+````    
 🧩 Principais Funcionalidades
 
-Processamento de compras consolidadas
+- Processamento de compras consolidadas
 
-Geração de Ordem Master
+- Geração de Ordem Master
 
-Geração de Ordens por Cliente
+- Geração de Ordens por Cliente
 
-Atualização de custódia com cálculo de preço médio
+- Atualização de custódia com cálculo de preço médio
 
-Cálculo de imposto de renda
+- Cálculo de imposto de renda
 
-Geração de relatório mensal
+- Geração de relatório mensal
 
-Publicação de eventos (estrutura preparada para Kafka)
+- Publicação de eventos (estrutura preparada para Kafka)
 
-Testes unitários cobrindo cenários críticos
+- Testes unitários cobrindo cenários críticos
 
 🧠 Regras de Negócio Implementadas
 
-Validação de clientes ativos
+- Validação de clientes ativos
 
-Validação de existência de cesta válida
+- Validação de existência de cesta válida
 
-Cálculo correto de preço médio ponderado
+- Cálculo correto de preço médio ponderado
 
-Atualização de custódia por cliente
+- Atualização de custódia por cliente
 
-Geração consolidada de ordens
+- Geração consolidada de ordens
 
-Tratamento global de erros via middleware
+- Tratamento global de erros via middleware
 
 🧪 Testes
 
-Foram implementados testes unitários utilizando xUnit, validando:
+- Foram implementados testes unitários utilizando xUnit, validando:
 
-Não processar sem clientes
+- Não processar sem clientes
 
-Não processar sem cesta
+- Não processar sem cesta
 
-Processamento correto em cenário válido
+- Processamento correto em cenário válido
 
 Executar testes:
-
+```bash
 dotnet test
+````
 🚀 Executando o Projeto
 🔧 Build
+```bash
 dotnet build
+````
 ▶ Executar API
+```bash
 dotnet run --project CompraProgramada.Api
-
+````
 Swagger disponível em:
 
 https://localhost:{porta}/swagger
 🐳 Executar com Docker
+```bash
 docker-compose up --build
+````
 🛠 Tecnologias Utilizadas
 
-.NET 8
+- .NET 8
 
-ASP.NET Core
+- ASP.NET Core
 
-Entity Framework Core
+- Entity Framework Core
 
-MySQL
+- MySQL
 
-xUnit
+- xUnit
 
-Swagger
+- Swagger
 
-Docker
+- Docker
 
 📌 Decisões Técnicas
 
-Separação clara entre domínio e infraestrutura
+- Separação clara entre domínio e infraestrutura
 
-Inversão de dependência via interfaces
+- Inversão de dependência via interfaces
 
-Encapsulamento das regras críticas no Domain
+- Encapsulamento das regras críticas no Domain
 
-Preparação para mensageria baseada em eventos
+- Preparação para mensageria baseada em eventos
 
-Estrutura orientada a testabilidade
+- Estrutura orientada a testabilidade
 
 📈 Evoluções Futuras
 
-Implementação de mensageria real com Kafka
+- Implementação de mensageria real com Kafka
 
-Controle transacional mais robusto
+- Controle transacional mais robusto
 
-Estratégias de idempotência
+- Estratégias de idempotência
 
-Autenticação e autorização (JWT)
+- Autenticação e autorização (JWT)
 
-Observabilidade (logs estruturados)
+- Observabilidade (logs estruturados)
