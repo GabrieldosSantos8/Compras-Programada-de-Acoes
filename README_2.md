@@ -3,7 +3,7 @@
 Este projeto é uma solução para o gerenciamento de compras programadas, custódia e processamento de ordens de ativos financeiros.
 
 ## 🛠️ Tecnologias Utilizadas
-* **Linguagem:** C# (.NET)
+* **Linguagem:** C# (.NET 8)
 * **Banco de Dados:** MySQL
 * **ORM:** Entity Framework Core (Migrations)
 * **Mensageria:** Kafka (Infraestrutura preparada)
