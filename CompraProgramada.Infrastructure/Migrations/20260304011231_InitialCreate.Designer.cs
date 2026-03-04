@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CompraProgramada.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260301143858_InitialCreate")]
+    [Migration("20260304011231_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -24,6 +24,22 @@ namespace CompraProgramada.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
+            modelBuilder.Entity("CompraProgramada.Domain.Entities.CestaTopFive", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DataVigencia")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cestas");
+                });
 
             modelBuilder.Entity("CompraProgramada.Domain.Entities.Cliente", b =>
                 {
@@ -138,6 +154,95 @@ namespace CompraProgramada.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Custodias");
+                });
+
+            modelBuilder.Entity("CompraProgramada.Domain.Entities.ItemCesta", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CestaId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CestaTopFiveId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Percentual")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("Ticker")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CestaTopFiveId");
+
+                    b.ToTable("ItensCesta");
+                });
+
+            modelBuilder.Entity("CompraProgramada.Domain.Entities.OrdemCliente", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Data")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Ticker")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<decimal>("Valor")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrdensClientes");
+                });
+
+            modelBuilder.Entity("CompraProgramada.Domain.Entities.OrdemMaster", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Data")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Ticker")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<decimal>("ValorTotal")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrdensMaster");
+                });
+
+            modelBuilder.Entity("CompraProgramada.Domain.Entities.ItemCesta", b =>
+                {
+                    b.HasOne("CompraProgramada.Domain.Entities.CestaTopFive", null)
+                        .WithMany("Itens")
+                        .HasForeignKey("CestaTopFiveId");
+                });
+
+            modelBuilder.Entity("CompraProgramada.Domain.Entities.CestaTopFive", b =>
+                {
+                    b.Navigation("Itens");
                 });
 #pragma warning restore 612, 618
         }

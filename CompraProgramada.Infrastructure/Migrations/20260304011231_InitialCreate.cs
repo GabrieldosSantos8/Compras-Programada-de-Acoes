@@ -16,6 +16,20 @@ namespace CompraProgramada.Infrastructure.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Cestas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    DataVigencia = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cestas", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Clientes",
                 columns: table => new
                 {
@@ -89,6 +103,64 @@ namespace CompraProgramada.Infrastructure.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "OrdensClientes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    ClienteId = table.Column<int>(type: "int", nullable: false),
+                    Ticker = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Valor = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    Data = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrdensClientes", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "OrdensMaster",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Data = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Ticker = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ValorTotal = table.Column<decimal>(type: "decimal(65,30)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrdensMaster", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "ItensCesta",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Ticker = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Percentual = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    CestaId = table.Column<int>(type: "int", nullable: false),
+                    CestaTopFiveId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ItensCesta", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ItensCesta_Cestas_CestaTopFiveId",
+                        column: x => x.CestaTopFiveId,
+                        principalTable: "Cestas",
+                        principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Clientes_CPF",
                 table: "Clientes",
@@ -100,6 +172,11 @@ namespace CompraProgramada.Infrastructure.Migrations
                 table: "Cotacoes",
                 columns: new[] { "Ticker", "DataPregao" },
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItensCesta_CestaTopFiveId",
+                table: "ItensCesta",
+                column: "CestaTopFiveId");
         }
 
         /// <inheritdoc />
@@ -116,6 +193,18 @@ namespace CompraProgramada.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Custodias");
+
+            migrationBuilder.DropTable(
+                name: "ItensCesta");
+
+            migrationBuilder.DropTable(
+                name: "OrdensClientes");
+
+            migrationBuilder.DropTable(
+                name: "OrdensMaster");
+
+            migrationBuilder.DropTable(
+                name: "Cestas");
         }
     }
 }

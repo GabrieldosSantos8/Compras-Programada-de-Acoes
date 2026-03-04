@@ -26,6 +26,7 @@ public class ErrorMiddleware
             var response = new
             {
                 message = ex.Message,
+                innerException = ex.InnerException?.Message,
                 statusCode = context.Response.StatusCode
             };
 
