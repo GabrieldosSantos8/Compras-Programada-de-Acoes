@@ -20,6 +20,7 @@ SELECT * FROM cotacoes;
 SELECT * FROM custodias;
 SELECT * FROM cestas;
 SELECT * FROM ordensmaster;
+select * from ordensclientes;
 ````
 2. Posição Consolidada do Cliente
 Exibe os ativos em carteira (custódia) vinculados ao nome do cliente:
