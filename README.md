@@ -1,149 +1,90 @@
-📌 Compra Programada API
+📌 Compra Programada API - Desafio Técnico Itaú
+Esta API é uma solução robusta para o processamento de compras programadas de ativos financeiros, realizando a consolidação de ordens, gestão de custódia e cálculo de performance de carteira.
 
-API responsável pelo processamento de compras programadas de ativos financeiros, geração de ordens consolidadas, atualização de custódia, cálculo de imposto de renda e publicação de eventos.
+🏗️ Arquitetura e Tecnologias
+O projeto foi desenvolvido seguindo os princípios de Clean Architecture e DDD (Domain-Driven Design), garantindo alta testabilidade e baixo acoplamento.
 
-🏗 Arquitetura
+Linguagem: C# (.NET 8)
 
-O projeto foi desenvolvido utilizando princípios de Clean Architecture, com separação clara de responsabilidades entre as camadas:
+Banco de Dados: MySQL
 
-- Domain → Entidades e regras de negócio
+ORM: Entity Framework Core (com Migrations)
 
-- Application → Casos de uso e orquestração
+Mensageria: Arquitetura preparada para integração com Kafka (processamento de eventos).
 
-- Infrastructure → Persistência, repositórios e mensageria
+Camadas do Projeto:
 
-- API → Exposição dos endpoints e configuração da aplicação
+Domain: Entidades, interfaces de repositório e regras de negócio puras.
 
-Essa abordagem reduz acoplamento, facilita testes e melhora a manutenibilidade do sistema.
+Application: Casos de uso, DTOs e serviços de orquestração.
 
-📂 Estrutura de Pastas (Solution Layout)
-```bash
-CompraProgramada.sln
-│
-├── CompraProgramada.Api
-│   ├── Controllers
-│   ├── Middlewares
-│   └── Program.cs
-│
-├── CompraProgramada.Application
-│   ├── DTOs
-│   ├── Interfaces
-│   └── Services
-│
-├── CompraProgramada.Domain
-│   ├── Entities
-│   ├── Repositories
-│   └── Services
-│
-├── CompraProgramada.Infrastructure
-│   ├── Data
-│   ├── Repositories
-│   ├── Messaging
-│   └── Services
-│
-└── CompraProgramada.Tests
-    └── Testes unitários (xUnit)
-````    
-🧩 Principais Funcionalidades
+Infrastructure: Implementação de persistência, contextos de dados e comunicação externa.
 
-- Processamento de compras consolidadas
+API: Controllers, Middlewares de erro global e documentação Swagger.
 
-- Geração de Ordem Master
+🧪 Testes e Qualidade (Peso Alto)
+Framework: Implementação de testes unitários com xUnit.
 
-- Geração de Ordens por Cliente
+Cenários Críticos: Validação de fluxo de caixa, existência de cestas, cálculo de preço médio ponderado e integridade do rateio de ativos.
 
-- Atualização de custódia com cálculo de preço médio
+Execução: Para rodar os testes, utilize o comando: dotnet test
 
-- Cálculo de imposto de renda
+🧠 Regras de Negócio e Domínio Financeiro
+Consolidação de Ordens: Agrupamento de intenções de compra individuais em uma Ordem Master para otimização de execução no mercado.
 
-- Geração de relatório mensal
+Lógica de Rateio Proporcional: Distribuição precisa de ativos entre clientes baseada no aporte mensal, com tratamento técnico de resíduos na Conta Master.
 
-- Publicação de eventos (estrutura preparada para Kafka)
+Mark-to-Market (MTM): Motor de cálculo de performance comparando o Preço Médio de aquisição com a cotação atual do pregão.
 
-- Testes unitários cobrindo cenários críticos
+🗄️ Guia de Auditoria do Banco de Dados (MySQL)
+Utilize as queries abaixo para validar a integridade dos dados e os cálculos realizados pelo sistema:
 
-🧠 Regras de Negócio Implementadas
+1. Visualização Geral das Entidades
+SQL 
+SELECT * FROM clientes;
+SELECT * FROM cotacoes;
+SELECT * FROM custodias;
+SELECT * FROM ordensmaster;
+SELECT * FROM ordensclientes;
+2. Posição de Custódia por Cliente
+SQL
+-- Exibe os ativos em carteira vinculados ao cliente
+SELECT cli.Nome, c.Ticker, c.Quantidade, c.PrecoMedio
+FROM Custodias c
+INNER JOIN Clientes cli ON cli.Id = c.ContaFilhoteId
+WHERE cli.Id = 2; -- Exemplo: Cliente ID 2
+3. Relatório de Performance e Lucro/Prejuízo
+SQL
+SELECT 
+    cli.Nome AS Cliente, 
+    c.Ticker, 
+    c.Quantidade AS Qtd, 
+    c.PrecoMedio, 
+    cot.PrecoFechamento AS PrecoAtual, 
+    (c.Quantidade * cot.PrecoFechamento) AS ValorAtual, 
+    ((cot.PrecoFechamento - c.PrecoMedio) * c.Quantidade) AS LucroPrejuizo, 
+    (((cot.PrecoFechamento / c.PrecoMedio) - 1) * 100) AS PerformancePorcentagem 
+FROM custodias c
+INNER JOIN clientes cli ON cli.Id = c.ContaFilhoteId
+INNER JOIN cotacoes cot ON cot.Ticker = c.Ticker
+WHERE cot.DataPregao = (SELECT MAX(DataPregao) FROM cotacoes WHERE Ticker = c.Ticker)
+ORDER BY LucroPrejuizo DESC;
+🚀 Como Executar o Projeto
+Configure a Connection String do seu MySQL no arquivo appsettings.json.
 
-- Validação de clientes ativos
+Execute o comando para build: dotnet build
 
-- Validação de existência de cesta válida
+Inicie a API: dotnet run --project CompraProgramada.Api
 
-- Cálculo correto de preço médio ponderado
+Acesse a documentação interativa via Swagger em: https://localhost:{porta}/swagger
 
-- Atualização de custódia por cliente
+📈 Roadmap de Escalabilidade (Diferenciais)
+O sistema foi desenhado para evoluir em ambiente de produção com:
 
-- Geração consolidada de ordens
+Implementação de Idempotência no processamento de ordens.
 
-- Tratamento global de erros via middleware
+Integração real com broker de mensagens (Kafka).
 
-🧪 Testes
+Logs estruturados para Observabilidade (Serilog/ELK).
 
-- Foram implementados testes unitários utilizando xUnit, validando:
-
-- Não processar sem clientes
-
-- Não processar sem cesta
-
-- Processamento correto em cenário válido
-
-Executar testes:
-```bash
-dotnet test
-````
-🚀 Executando o Projeto
-
-🔧 Build
-```bash
-dotnet build
-````
-▶ Executar API
-```bash
-dotnet run --project CompraProgramada.Api
-````
-Swagger disponível em:
-
-https://localhost:{porta}/swagger
-
-🐳 Executar com Docker
-```bash
-docker-compose up --build
-````
-🛠 Tecnologias Utilizadas
-
-- .NET 8
-
-- ASP.NET Core
-
-- Entity Framework Core
-
-- MySQL
-
-- xUnit
-
-- Swagger
-
-- Docker
-
-📌 Decisões Técnicas
-
-- Separação clara entre domínio e infraestrutura
-
-- Inversão de dependência via interfaces
-
-- Encapsulamento das regras críticas no Domain
-
-- Preparação para mensageria baseada em eventos
-
-- Estrutura orientada a testabilidade
-
-📈 Evoluções Futuras
-
-- Implementação de mensageria real com Kafka
-
-- Controle transacional mais robusto
-
-- Estratégias de idempotência
-
-- Autenticação e autorização (JWT)
-
-- Observabilidade (logs estruturados)
+Autenticação via JWT (OAuth2).
