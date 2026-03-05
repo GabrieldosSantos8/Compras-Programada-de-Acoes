@@ -22,7 +22,7 @@ Infrastructure: Implementação de persistência, contextos de dados e comunica�
 
 API: Controllers, Middlewares de erro global e documentação Swagger.
 
-🧪 Testes e Qualidade (Peso Alto)
+🧪 Testes e Qualidade
 Framework: Implementação de testes unitários com xUnit.
 
 Cenários Críticos: Validação de fluxo de caixa, existência de cestas, cálculo de preço médio ponderado e integridade do rateio de ativos.
@@ -40,21 +40,29 @@ Mark-to-Market (MTM): Motor de cálculo de performance comparando o Preço Médi
 Utilize as queries abaixo para validar a integridade dos dados e os cálculos realizados pelo sistema:
 
 1. Visualização Geral das Entidades
-SQL 
+   
+SQL
+```bash
 SELECT * FROM clientes;
 SELECT * FROM cotacoes;
 SELECT * FROM custodias;
 SELECT * FROM ordensmaster;
 SELECT * FROM ordensclientes;
-2. Posição de Custódia por Cliente
+````
+3. Posição de Custódia por Cliente
+   
 SQL
+```bash
 -- Exibe os ativos em carteira vinculados ao cliente
 SELECT cli.Nome, c.Ticker, c.Quantidade, c.PrecoMedio
 FROM Custodias c
 INNER JOIN Clientes cli ON cli.Id = c.ContaFilhoteId
 WHERE cli.Id = 2; -- Exemplo: Cliente ID 2
-3. Relatório de Performance e Lucro/Prejuízo
+````
+5. Relatório de Performance e Lucro/Prejuízo
+   
 SQL
+```bash
 SELECT 
     cli.Nome AS Cliente, 
     c.Ticker, 
@@ -69,15 +77,22 @@ INNER JOIN clientes cli ON cli.Id = c.ContaFilhoteId
 INNER JOIN cotacoes cot ON cot.Ticker = c.Ticker
 WHERE cot.DataPregao = (SELECT MAX(DataPregao) FROM cotacoes WHERE Ticker = c.Ticker)
 ORDER BY LucroPrejuizo DESC;
+````
 🚀 Como Executar o Projeto
 Configure a Connection String do seu MySQL no arquivo appsettings.json.
 
-Execute o comando para build: dotnet build
-
-Inicie a API: dotnet run --project CompraProgramada.Api
-
-Acesse a documentação interativa via Swagger em: https://localhost:{porta}/swagger
-
+Execute o comando para build:
+```bash
+dotnet build
+````
+Inicie a API:
+```bash
+dotnet run --project CompraProgramada.Api
+````
+Acesse a documentação interativa via Swagger em:
+```bash
+https://localhost:{porta}/swagger
+````
 📈 Roadmap de Escalabilidade (Diferenciais)
 O sistema foi desenhado para evoluir em ambiente de produção com:
 
