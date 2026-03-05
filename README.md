@@ -28,7 +28,10 @@ Framework: Implementação de testes unitários com xUnit.
 
 Cenários Críticos: Validação de fluxo de caixa, existência de cestas, cálculo de preço médio ponderado e integridade do rateio de ativos.
 
-Execução: Para rodar os testes, utilize o comando: ```bash dotnet test ````
+Execução: Para rodar os testes, utilize o comando: 
+```bash
+dotnet test
+````
 
 🧠 Regras de Negócio e Domínio Financeiro
 
