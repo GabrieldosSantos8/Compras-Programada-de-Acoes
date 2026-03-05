@@ -23,13 +23,15 @@ Infrastructure: Implementação de persistência, contextos de dados e comunica�
 API: Controllers, Middlewares de erro global e documentação Swagger.
 
 🧪 Testes e Qualidade
+
 Framework: Implementação de testes unitários com xUnit.
 
 Cenários Críticos: Validação de fluxo de caixa, existência de cestas, cálculo de preço médio ponderado e integridade do rateio de ativos.
 
-Execução: Para rodar os testes, utilize o comando: dotnet test
+Execução: Para rodar os testes, utilize o comando: ```bash dotnet test ````
 
 🧠 Regras de Negócio e Domínio Financeiro
+
 Consolidação de Ordens: Agrupamento de intenções de compra individuais em uma Ordem Master para otimização de execução no mercado.
 
 Lógica de Rateio Proporcional: Distribuição precisa de ativos entre clientes baseada no aporte mensal, com tratamento técnico de resíduos na Conta Master.
