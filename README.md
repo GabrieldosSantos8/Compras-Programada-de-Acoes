@@ -1,4 +1,4 @@
- Compra Programada API - Desafio Técnico Itaú
+ Compra Programada API - Desafio Técnico 
 Esta API é uma solução robusta para o processamento de compras programadas de ativos financeiros, realizando a consolidação de ordens, gestão de custódia e cálculo de performance de carteira.
 
  Arquitetura e Tecnologias
